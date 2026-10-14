@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tensei</title>
+</head>
+<body>
+	<form class="tensei" id="formTensei">
+		<h2>Iseaki no Tensei</h2>
+		<div>
+			<label for="username">Username</label>
+			<input id="username" type="text" required placeholder="Username">
+		</div>
+		<div>
+			<label for="passwd">Password</label>
+			<input id="passwd" type="password" required placeholder="Password">
+		</div>
+		<button type="submit">Tensei</button>
+		<p>Punya akun? Login <a href="/">Disini</a></p>
+	</form>
+
+	<script>
+		document.getElementById('formTensei').addEventListener('submit', async(e) => {
+			e.preventDefault()
+
+			const username = document.getElementById('username').value
+			const password = document.getElementById('passwd').value
+
+			const res = await fetch('/tensei', {
+				method: 'POST',
+				headers: {'content-Type': 'application/json'},
+				body: JSON.stringify({username, password})
+			})
+
+			const data = await res.json()
+
+			if (data.error) {
+				alert(data.error)
+				return
+			}
+
+			alert('Tensei berhasil silahkan Login')
+			window.location.href = '/'
+		})
+	</script>
+</body>
+</html>

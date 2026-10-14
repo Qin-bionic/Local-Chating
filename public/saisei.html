@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Saisei</title>
+</head>
+<body>
+	<form class="saisei" id="formSaisei">
+		<h2>Saisei no Isekai</h2>
+		<div>
+			<label for="username">Username</label>
+			<input id="username" type="text" required placeholder="Username">
+		</div>
+		<div>
+			<label for="passwd">Password</label>
+			<input id="passwd" type="password" required placeholder="Password">
+		</div>
+		<button type="submit">Saisei</button>
+		<p>Belum punya akun? Buat <a href="/Register">Disini</a></p>
+	</form>
+
+	<script>
+		document.getElementById('formSaisei').addEventListener('submit', async(e) => {
+			e.preventDefault()
+
+			username = document.getElementById('username').value
+			password = document.getElementById('passwd').value
+			
+			const res = await fetch('/saisei', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({username, password})
+			})
+
+			const data = await res.json()
+
+			if (data.error) {
+				alert(data.error)
+				return
+			}
+
+			localStorage.setItem('username', data.username)
+			window.location.href = '/FairyChat'
+		})
+	</script>
+</body>
+</html>
